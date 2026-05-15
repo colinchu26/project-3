@@ -4,6 +4,7 @@ body {
   background: #2aa66e;
   color: black;
 }
+/* updated
 
 /*.app {
   padding: 18px;
@@ -65,6 +66,12 @@ button {
   overflow: hidden;
   margin-top: 10px;
 }
+
+/* 
+
+icon heree
+
+*/
 
 .game-icon {
   position: absolute;
