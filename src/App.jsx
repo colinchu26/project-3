@@ -1,206 +1,15 @@
-// commented out  lines 16-23
-
 import { useState, useEffect } from "react"
-
-import img1 from "./IMG_0429-001.JPG"
-import bg from "./background photo.avif"
 import "./App.css"
 
+import Top from "./Components/Top"
+import Options from "./Components/Options"
+import Card from "./Components/Card"
+import Info from "./Components/Info"
+import AddParkForm from "./Components/AddParkForm"
+import ParkGame from "./Components/ParkGame"
+import NavBar from "./Components/NavBar"
+
 const API = "http://localhost:3001"
-
-function Top({ title, desc, count, fav }) {
-  return (
-    <div
-      className="top"
-      style={{ backgroundImage: `url(${bg})` }}
-    >
-      <h1>{title}</h1>
-      <img src={img1} alt="park photo" />
-      <p>{desc}</p>
-      <div>
-        <div>visited: {count}</div> 
-        <div>favorite: {fav || "none"}</div> 
-      </div>
-      <hr />
-    </div>
-  )
-}
-
-function Options({ word, setWord, sort, setSort, only, setOnly }) {
-  return (
-    <div className="controls">
-      <div>
-        <label htmlFor="search">Search </label>
-        <input
-          id="search"
-          value={word}
-          onChange={e => setWord(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="sort">Sort </label>
-        <select id="sort" value={sort} onChange={e => setSort(e.target.value)}>
-          <option value="name">Name</option>
-          <option value="state">State</option>
-          <option value="likes">Likes</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="visited">Visited only </label>
-        <input
-          id="visited"
-          type="checkbox"
-          checked={only}
-          onChange={() => setOnly(!only)}
-        />
-      </div>
-    </div>
-  )
-}
-
-function Card({ data: park, like, visit, setFav, select, save, remove }) {
-  const [note, setNote] = useState(park.note || "")
-
-  return (
-    <div className="MA1card">
-      <h2>{park.name}</h2>
-      <p>state: {park.state}</p>
-      <p>type: {park.type}</p>
-      <p>{park.text}</p>
-      <button onClick={() => like(park._id)}>like</button>
-      <span> {park.likes} </span>
-      <button onClick={() => visit(park._id)}>
-        {park.visited ? "unvisit" : "visit"}
-      </button>
-      <button onClick={() => setFav(park.name)}>favorite</button>
-      <button onClick={() => select(park._id)}>details</button>
-      <button
-        onClick={() => remove(park._id)}
-        style={{ background: "#dc2626" }}
-      >
-        delete
-      </button>
-      <div>
-        <input
-          value={note}
-          placeholder="note"
-          onChange={e => {
-            setNote(e.target.value)
-            save(park._id, e.target.value)
-          }}
-        />
-      </div>
-      {note ? <p>{note}</p> : null}
-      <hr />
-    </div>
-  )
-}
-
-function Info({ current }) {
-  return (
-    <div className="colinsinfobox">
-      <h3>details</h3>
-      {!current ? (
-        <p>nothing selected</p>
-      ) : (
-        <div>
-          <p>{current.name}</p>
-          <p>state: {current.state}</p>
-          <p>   type: {current.type}</p>
-          <p>   {current.text}</p>
-          <p>   feature: {current.feature}</p>
-          <p> likes: {current.likes}</p>
-          <p>visited: {current.visited ? "yes" : "no"}</p>
-          <p>note: {current.note || "none"}</p>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function ParkGame({ parks, setSelected }) {
-  const [pts, setPts] = useState(() =>
-    parks.map(p => ({
-      id: p._id,
-      x: Math.random()* 380,
-      y: Math.random() * 180,
-    }))
-  )
-
-  // numbers didnt work: 300, 450
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPts(old =>
-        old.map(d => ({
-          ...d,
-          x: (d.x+(Math.random()*40 - 20)+ 400) % 400,
-          y: (d.y + (Math.random() * 30-15) + 200)%200,
-        }))
-      )
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
-
-  return (
-    <div className="game">
-      {pts.map(pt => {
-        const p = parks.find(a => a._id === pt.id)
-        if (!p) return null
-        return (
-          <div
-            key={pt.id}
-            className="game-icon"
-            onClick={() => setSelected(pt.id)}
-            style={{ left: pt.x, top: pt.y }}
-            title={p.name}
-          >
-            {p.visited ? "🏜️" : "🏞️"}
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-function AddParkForm({ onAdd }) {
-  const [form, setForm] = useState({
-    name: "", state: "", type: "", feature: "", text: ""
-  })
-
-  const handleChange = e =>
-    setForm({ ...form, [e.target.name]: e.target.value })
-
-  const handleSubmit = async () => {
-    if (!form.name.trim() || !form.state.trim()) return
-    const res = await fetch(`${API}/parks`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    })
-    const newPark = await res.json()
-    onAdd(newPark)
-    setForm({ name: "", state: "", type: "", feature: "", text: "" })
-  }
-
-  return (
-    <div className="controls">
-      <h3>add a park</h3>
-      {["name", "state", "type", "feature", "text"].map(field => (
-        <div key={field}>
-          <label>{field} </label>
-          <input
-            name={field}
-            value={form[field]}
-            onChange={handleChange}
-            placeholder={field}
-          />
-        </div>
-      ))}
-      <button onClick={handleSubmit}>add park</button>
-    </div>
-  )
-}
 
 export default function App() {
   const [parks, setParks] = useState([])
@@ -278,12 +87,16 @@ export default function App() {
 
   return (
     <div>
-      <Top
-        title="Colin's National Parks Tracker"
-        desc="Track your adventures!"
-        count={visitedCount}
-        fav={favorite}
-      />
+      <NavBar />
+
+      <div id="top">
+        <Top
+          title="Colin's National Parks Tracker"
+          desc="Track your adventures!"
+          count={visitedCount}
+          fav={favorite}
+        />
+      </div>
 
       <Options
         word={search}
@@ -317,7 +130,7 @@ export default function App() {
       </div>
 
       <hr />
-      <div style={{ margin: "20px" }}>
+      <div id="ideas" style={{ margin: "20px" }}>
         <h3>more park ideas</h3>
         <input
           placeholder="type a park name..."
@@ -338,7 +151,7 @@ export default function App() {
       </div>
 
       <hr />
-      <div style={{ margin: "20px" }}>
+      <div id="game" style={{ margin: "20px" }}>
         <h3>experimental park game</h3>
         <p>click an icon to select that park</p>
         <ParkGame parks={parks} setSelected={setSelected} />
@@ -346,5 +159,3 @@ export default function App() {
     </div>
   )
 }
-
-// alr cleaned up last 100 lines - dont need to come back
