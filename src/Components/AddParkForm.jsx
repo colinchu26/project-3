@@ -1,15 +1,16 @@
+/* component 1 - addparkform
+
+*/
 import { useState } from "react"
 
-const API = "http://localhost:3001"
+const API= " http://localhost:3001 "
 
 export default function AddParkForm({ onAdd }) {
   const [form, setForm] = useState({
-    name: "", state: "", type: "", feature: "", text: ""
+    name:            "", state: " ", type: "", feature: "", text: ""
   })
-
   const handleChange = e =>
-    setForm({ ...form, [e.target.name]: e.target.value })
-
+    setForm({ ...form, [e.target.name]:e.target.value })
   const handleSubmit = async () => {
     if (!form.name.trim() || !form.state.trim()) return
     const res = await fetch(`${API}/parks`, {
@@ -17,8 +18,19 @@ export default function AddParkForm({ onAdd }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     })
+/*
+notes for colin to return to:
+- make sure useState is still used properly
+- placeholder wasn't working before, come back to this..
+
+*/
+
     const newPark = await res.json()
+
+
     onAdd(newPark)
+
+/* new part/additions */
     setForm({ name: "", state: "", type: "", feature: "", text: "" })
   }
 
@@ -30,10 +42,13 @@ export default function AddParkForm({ onAdd }) {
           <label>{field} </label>
           <input
             name={field}
-            value={form[field]}
+
+            value={form
+                [field]}
             onChange={handleChange}
-            placeholder={field}
-          />
+            placeholder={field }
+                
+                />
         </div>
       ))}
       <button onClick={handleSubmit}>add park</button>

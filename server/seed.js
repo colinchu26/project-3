@@ -2,8 +2,7 @@ require("dotenv").config()
 const mongoose = require("mongoose")
 const Park = require("./schema/Park")
 // parks same as before
-// mongoose connect - bug 5.8.26
-// console log - 5.12.26
+// mongoose connect -
 
 const parks = [
   { name: "Yellowstone",   state: "Wyoming",    type: "geothermal", feature: "Old Faithful",     text: "geysers and animals",              likes: 0, visited: false, note: "" },

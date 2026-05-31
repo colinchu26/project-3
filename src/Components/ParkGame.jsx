@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react"
+import { useState, 
+            useEffect } from "react"
 
 export default function ParkGame({ parks, setSelected }) {
   const [pts, setPts] = useState(() =>
     parks.map(p => ({
       id: p._id,
-      x: Math.random() * 380,
-      y: Math.random() * 180,
+      x:Math.random()* 380, y:Math.random()* 180,
+      /* x y Math.random*/
+      /*380 180 work*/
     }))
   )
 
@@ -14,8 +16,9 @@ export default function ParkGame({ parks, setSelected }) {
       setPts(old =>
         old.map(d => ({
           ...d,
-          x: (d.x + (Math.random() * 40 - 20) + 400) % 400,
-          y: (d.y + (Math.random() * 30 - 15) + 200) % 200,
+          /* random function*/
+          x: (d.x + (Math.random()*40 - 20) + 400) % 400,
+          y: (d.y + (Math.random()* 30- 15) +200)% 200,
         }))
       )
     }, 1000)
@@ -30,8 +33,8 @@ export default function ParkGame({ parks, setSelected }) {
         return (
           <div
             key={pt.id}
-            className="game-icon"
-            onClick={() => setSelected(pt.id)}
+            className="game-icon"   
+                                                            onClick={() => setSelected(pt.id)}
             style={{ left: pt.x, top: pt.y }}
             title={p.name}
           >

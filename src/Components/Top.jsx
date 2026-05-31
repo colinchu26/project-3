@@ -10,8 +10,10 @@ export default function Top({ title, desc, count, fav }) {
       <h1>{title}</h1>
       <img src={img1} alt="park photo" />
       <p>{desc}</p>
+      
       <div>
         <div>visited: {count}</div>
+
         <div>favorite: {fav || "none"}</div>
       </div>
       <hr />

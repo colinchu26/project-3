@@ -1,6 +1,9 @@
+/* import for useState useEffect
+all of the new components
+iimages for each nat. park
+*/
 import { useState, useEffect } from "react"
 import "./App.css"
-
 import Top from "./Components/Top"
 import Options from "./Components/Options"
 import Card from "./Components/Card"
@@ -8,8 +11,16 @@ import Info from "./Components/Info"
 import AddParkForm from "./Components/AddParkForm"
 import ParkGame from "./Components/ParkGame"
 import NavBar from "./Components/NavBar"
+import YellowstoneImg from "./Yellowstone.jpg"
+import YosemiteImg from "./Yosemite.jpg"
+import GrandCanyonImg from "./GrandCanyon.jpg"
+import ZionImg from "./Zion.jpg"
+import AcadiaImg from "./Acadia.jpg"
+import OlympicImg from "./Olympic.jpg"
 
 const API = "http://localhost:3001"
+/*API*/
+
 
 export default function App() {
   const [parks, setParks] = useState([])
@@ -57,6 +68,11 @@ export default function App() {
     setParks(parks.map(p => (p._id === id ? updated : p)))
   }
 
+
+
+
+
+  /*async function here */
   async function deletePark(id) {
     await fetch(`${API}/parks/${id}`, { method: "DELETE" })
     setParks(parks.filter(p => p._id !== id))
@@ -66,6 +82,8 @@ export default function App() {
     setParks([...parks, newPark])
   }
 
+
+  /* my lists*/
   let list = parks.filter(p => {
     const m =
       p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -89,9 +107,8 @@ export default function App() {
     <div>
       <NavBar />
 
-      <div id="top">
-        <Top
-          title="Colin's National Parks Tracker"
+      <div id="top"> <Top
+          title="Colin's National Parks Tracker" /*project 3*/
           desc="Track your adventures!"
           count={visitedCount}
           fav={favorite}
@@ -145,14 +162,12 @@ export default function App() {
         }}>
           add idea
         </button>
-        <ul>
-          {ideas.map((i, idx) => <li key={idx}>{i}</li>)}
+        <ul> {ideas.map((i, idx) => <li key={idx}>{i}</li>)}
         </ul>
       </div>
 
       <hr />
-      <div id="game" style={{ margin: "20px" }}>
-        <h3>experimental park game</h3>
+      <div id="game" style={{ margin: "20px" }}> <h3>experimental park game</h3>
         <p>click an icon to select that park</p>
         <ParkGame parks={parks} setSelected={setSelected} />
       </div>

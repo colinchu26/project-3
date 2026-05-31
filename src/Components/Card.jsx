@@ -1,3 +1,8 @@
+/* component 1 - card
+
+
+rename the classname
+*/
 import { useState } from "react"
 
 export default function Card({ data: park, like, visit, setFav, select, save, remove }) {
@@ -18,7 +23,7 @@ export default function Card({ data: park, like, visit, setFav, select, save, re
       <button onClick={() => select(park._id)}>details</button>
       <button
         onClick={() => remove(park._id)}
-        style={{ background: "#dc2626" }}
+        style={{ background: "#ba2929" }}
       >
         delete
       </button>
@@ -28,7 +33,11 @@ export default function Card({ data: park, like, visit, setFav, select, save, re
           placeholder="note"
           onChange={e => {
             setNote(e.target.value)
+
+
             save(park._id, e.target.value)
+
+            
           }}
         />
       </div>
